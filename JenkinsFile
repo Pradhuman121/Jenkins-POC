@@ -11,8 +11,8 @@ pipeline {
             steps {
                 script {
                     // Create and activate a virtual environment
-                    bat 'python -m venv venv'
-                    bat 'venv\\Scripts\\activate.bat'
+                    sh 'python3 -m venv venv'
+                    sh '. venv/bin/activate'
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Install Flask within the virtual environment
-                    bat 'pip install flask'
+                    sh 'pip install flask'
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     // Run your Python script within the virtual environment
-                    bat 'python poc.py' // Assuming your script is named poc.py
+                    sh 'python poc.py' // Assuming your script is named poc.py
                 }
             }
         }
