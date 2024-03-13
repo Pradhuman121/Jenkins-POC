@@ -11,8 +11,8 @@ pipeline {
             steps {
                 script {
                     // Create and activate a virtual environment
-                    sh 'python3 -m venv venv'
-                    sh '. venv/bin/activate'
+                    sh 'python3 -m venv myvenv'
+                    sh '. myvenv/bin/activate'
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Install Flask within the virtual environment
-                    sh 'pip install flask'
+                    sh 'pipx install flask'
                 }
             }
         }
