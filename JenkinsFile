@@ -7,27 +7,28 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Pradhuman121/Jenkins-POC.git']]])
             }
         }
-        stage('Install pipx') {
+        stage('Setup Virtual Environment') {
             steps {
                 script {
-                    // Install pipx
-                    sh 'python3 -m pip install --user pipx'
+                    // Create and activate a virtual environment
+                    bat 'python -m venv venv'
+                    bat 'venv\\Scripts\\activate.bat'
                 }
             }
         }
         stage('Install Flask') {
             steps {
                 script {
-                    // Install Flask using pipx
-                    sh 'pipx install flask'
+                    // Install Flask within the virtual environment
+                    bat 'pip install flask'
                 }
             }
         }
         stage('Run Script') {
             steps {
                 script {
-                    // Run your Python script
-                    sh 'python3 poc.py' // Assuming your script is named poc.py
+                    // Run your Python script within the virtual environment
+                    bat 'python poc.py' // Assuming your script is named poc.py
                 }
             }
         }
