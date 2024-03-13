@@ -10,13 +10,11 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'pip install flask'
-                sh 'python3 -m flask'
             }
         }
-        stage('Build') {
+        stage('Run Script') {
             steps {
-                git branch: 'main', url: 'https://github.com/Pradhuman121/Jenkins-POC.git'
-                sh 'python3 poc.py'
+                sh 'python3 poc.py' // Assuming your script is named poc.py
             }
         }
         stage('Completed') {
