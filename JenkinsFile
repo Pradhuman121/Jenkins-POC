@@ -7,15 +7,20 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Pradhuman121/Jenkins-POC.git']]])
             }
         }
+        stage('Install Dependencies') {
+            steps {
+                sh 'python3 -m flask'
+            }
+        }
         stage('Build') {
             steps {
                 git branch: 'main', url: 'https://github.com/Pradhuman121/Jenkins-POC.git'
                 sh 'python3 poc.py'
             }
         }
-        stage('Test') {
+        stage('Completed') {
             steps {
-                sh 'python3 -m flask'
+                echo "Completed Successfully"
             }
         }
     }
