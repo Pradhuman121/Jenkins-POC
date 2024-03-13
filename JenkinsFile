@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip install flask'
+                sh 'pipx install flask'
             }
         }
         stage('Run Script') {
