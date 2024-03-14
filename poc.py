@@ -1,10 +1,11 @@
-from flask import Flask
+def add(x,y):
+    return x+y
 
-app = Flask(__name__)
+def subtract(x,y):
+    return x-y
 
-@app.route('/')
-def hello():
-    return 'Hello, World! This is my CI/CD demo.'
+def multiply(x,y):
+    return x*y
 
-if __name__ == '__main__':
-    app.run(debug=True)
+def divide(x,y):
+    return x/y
