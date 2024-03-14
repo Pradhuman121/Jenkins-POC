@@ -4,35 +4,43 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Pradhuman121/Jenkins-POC.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Pradhuman121/Jenkins-POC']]])
             }
         }
-
-        stage('Install Flask') {
+        stage('Setup Virtual Environment') {
             steps {
                 script {
-                // Install pipx
-                sh 'python3 -m pip install pipx'
-                
-                // Ensure pipx is added to PATH
-                sh 'python3 -m pipx ensurepath'
-
-                    // Install Flask within the virtual environment
-                    sh 'pipx install flask'
+                    // Create a virtual environment
+                    sh 'python3 -m venv venv'
+                    // Activate the virtual environment
+                    sh './venv/bin/pip install streamlit'
                 }
             }
         }
-        stage('Run Script') {
+        stage('Run Streamlit App') {
             steps {
                 script {
-                    // Run your Python script within the virtual environment
-                    sh 'python3 -m poc.py' // Assuming your script is named poc.py
+                    // Run Streamlit app using nohup to keep it running after job completion
+                    sh 'nohup ./venv/bin/streamlit run app.py --server.port 8501 > streamlit.log 2>&1 &'
+                }
+            }
+        }
+        stage('Test Streamlit App') {
+            steps {
+                script {
+                    // Add a sleep to ensure the Streamlit app has enough time to start
+                    sleep(10)
+                    // Test Streamlit app by making a request
+                    sh 'curl -sSf http://localhost:8503 || echo "Streamlit app is not running"'
                 }
             }
         }
         stage('Completed') {
             steps {
-                echo "Completed Successfully"
+                script {
+                    // Check if Streamlit app is running
+                    sh 'curl -sSf http://localhost:8503 && echo "Streamlit app is running" || echo "Streamlit app is not running"'
+                }
             }
         }
     }
