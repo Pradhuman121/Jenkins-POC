@@ -11,15 +11,8 @@ pipeline {
         stage('Install Flask') {
             steps {
                 script {
-
-                // Install pipx
-                sh 'python3 -m pip install pipx'
-                
-                // Ensure pipx is added to PATH
-                sh 'python3 -m pipx ensurepath'
-
                     // Install Flask within the virtual environment
-                    sh 'python3 -m pipx install flask'
+                    sh 'pipx install flask'
                 }
             }
         }
