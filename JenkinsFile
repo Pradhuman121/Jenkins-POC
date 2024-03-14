@@ -4,18 +4,44 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Pradhuman121/Jenkins-POC']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Pradhuman121/Jenkins-POC.git']]])
             }
         }
-        stage('Build') {
+        stage('Setup Virtual Environment') {
             steps {
-                git branch: 'main', url: 'https://github.com/Pradhuman121/Jenkins-POC'
-                sh 'python3 poc.py'
+                script {
+                    // Create and activate a virtual environment
+                    sh 'python3 -m venv myvenv'
+                    sh '. myvenv/bin/activate'
+                }
             }
         }
-        stage('Test') {
+        stage('Install Flask') {
             steps {
-                sh 'python3 -m pytest'
+                script {
+
+                // Install pipx
+                sh 'python3 -m pip install pipx'
+                
+                // Ensure pipx is added to PATH
+                sh 'python3 -m pipx ensurepath'
+
+                    // Install Flask within the virtual environment
+                    sh 'python3 -m pipx install flask'
+                }
+            }
+        }
+        stage('Run Script') {
+            steps {
+                script {
+                    // Run your Python script within the virtual environment
+                    sh 'python3 -m poc.py' // Assuming your script is named poc.py
+                }
+            }
+        }
+        stage('Completed') {
+            steps {
+                echo "Completed Successfully"
             }
         }
     }
