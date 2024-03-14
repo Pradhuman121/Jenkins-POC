@@ -7,4 +7,4 @@ def hello():
     return 'Hello, World! This is my CI/CD demo.'
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(port=8503, debug=True) 
