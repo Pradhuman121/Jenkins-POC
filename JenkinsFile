@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Run Streamlit app using nohup to keep it running after job completion
-                    sh 'nohup ./venv/bin/streamlit run poc.py --server.port 5000 > streamlit.log 2>&1 &'
+                    sh 'nohup ./venv/bin/streamlit run poc.py --server.port 8501 > streamlit.log 2>&1 &'
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
                     // Add a sleep to ensure the Streamlit app has enough time to start
                     sleep(10)
                     // Test Streamlit app by making a request
-                    sh 'curl -sSf http://localhost:5000 || echo "Streamlit app is not running"'
+                    sh 'curl -sSf http://localhost:8501 || echo "Streamlit app is not running"'
                 }
             }
         }
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 script {
                     // Check if Streamlit app is running
-                    sh 'curl -sSf http://localhost:5000 && echo "Streamlit app is running" || echo "Streamlit app is not running"'
+                    sh 'curl -sSf http://localhost:8501 && echo "Streamlit app is running" || echo "Streamlit app is not running"'
                 }
             }
         }
