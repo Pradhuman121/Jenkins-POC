@@ -1,10 +1,14 @@
-from flask import Flask
+import streamlit as st
 
-app = Flask(__name__)
+def main():
+    st.title("Simple Streamlit App")
+    
+    # Text input box
+    user_input = st.text_input("Enter your text here:")
+    
+    # Button to submit input
+    if st.button("Submit"):
+        st.write("You entered:", user_input)
 
-@app.route('/')
-def hello():
-    return 'Hello, World! This is my CI/CD demo.'
-
-if __name__ == '__main__':
-    app.run(port=8503, debug=True) 
+if __name__ == "__main__":
+    main()
